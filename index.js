@@ -10,7 +10,7 @@ module.exports = (ctx, next) => {
       return d
     })
     return next().then(() => {
-      if (!data) return Promise.resolve()
+      if (!data || !ctx.body) return Promise.resolve()
       const $ = cheerio.load(ctx.body)
       const stringified = JSON.stringify(data)
        .replace(/</g, '\\u003c')
@@ -28,7 +28,15 @@ module.exports = (ctx, next) => {
   // On the client skip running the code and load the data from the bootstrapped
   // data instead.
   } else {
-    ctx.bootstrap = () => Promise.resolve(window.__UNIKOA_BOOTSTRAP__)
+    ctx.bootstrap = (run) => {
+      if (window.__UNIKOA_BOOTSTRAP__) {
+        const data = window.__UNIKOA_BOOTSTRAP__
+        delete window.__UNIKOA_BOOTSTRAP__
+        return Promise.resolve(data)
+      } else {
+        return run()
+      }
+    }
     next()
   }
 }

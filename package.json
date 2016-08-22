@@ -1,6 +1,6 @@
 {
   "name": "unikoa-bootstrap",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "Unikoa middleware that provides a helper to bootstrap data from server to client.",
   "main": "index.js",
   "directories": {
@@ -33,6 +33,7 @@
     "koa-static": "^3.0.0",
     "mocha": "^3.0.1",
     "should": "^10.0.0",
+    "sinon": "^1.17.5",
     "standard": "^7.1.2",
     "superagent": "^2.1.0",
     "unikoa": "0.0.1"

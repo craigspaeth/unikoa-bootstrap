@@ -1,5 +1,6 @@
 /* eslint-env mocha */
 const unikoaRouter = require('./')
+const sinon = require('sinon')
 
 describe('on the server', () => {
   it('foos', () => {
@@ -16,7 +17,20 @@ describe('on the client', () => {
     delete global.window
   })
 
-  it('bars', () => {
-    console.log(unikoaRouter)
+  it('loads the data from bootstrap', () => {
+    const ctx = {}
+    window.__UNIKOA_BOOTSTRAP__ = { foo: 'bar' }
+    unikoaRouter(ctx, () => {})
+    return ctx.bootstrap().then((data) => data.foo.should.equal('bar'))
+  })
+
+  it('loads from bootstrap only once', () => {
+    const ctx = {}
+    window.__UNIKOA_BOOTSTRAP__ = { foo: 'bar' }
+    unikoaRouter(ctx, () => {})
+    const callback = sinon.spy()
+    ctx.bootstrap(callback)
+    ctx.bootstrap(callback)
+    callback.called.should.be.ok()
   })
 })
