@@ -3,8 +3,11 @@ const unikoaRouter = require('./')
 const sinon = require('sinon')
 
 describe('on the server', () => {
-  it('foos', () => {
-    console.log(unikoaRouter)
+  it('adds a head tag if it doesnt exist', () => {
+    const ctx = { body: '<html><body></body></html>' }
+    return unikoaRouter(ctx, () =>
+      ctx.bootstrap(() => Promise.resolve({ foo: 'bar' }))
+    )
   })
 })
 

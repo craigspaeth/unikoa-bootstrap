@@ -13,10 +13,10 @@ module.exports = (ctx, next) => {
       if (!data || !ctx.body) return Promise.resolve()
       const $ = cheerio.load(ctx.body)
       const stringified = JSON.stringify(data)
-       .replace(/</g, '\\u003c')
-       .replace(/-->/g, '--\\>')
-       .replace(/\u2028/g, '\\u2028')
-       .replace(/\u2029/g, '\\u2029')
+        .replace(/</g, '\\u003c')
+        .replace(/-->/g, '--\\>')
+        .replace(/\u2028/g, '\\u2028')
+        .replace(/\u2029/g, '\\u2029')
       $('head').append(`
         <script>
           window.__UNIKOA_BOOTSTRAP__ = ${stringified}
